@@ -241,57 +241,7 @@ These operations currently timeout and crash the server.
 
 ---
 
-### Task 2.4: Two-Factor Authentication for Instructors
 
-**Scenario:** The university had unauthorized access to instructor accounts. Implement 2FA for all instructors and admins.
-
-**Build TOTP-based 2FA:**
-
-#### Requirements:
-
-1. **2FA Setup Flow:**
-   - Instructors enable 2FA from profile settings
-   - Generate QR code for authenticator apps (Google Authenticator, Authy)
-   - Generate 10 recovery codes (must be hashed in database)
-   - Display recovery codes only once during setup
-   - Allow users to regenerate recovery codes
-
-2. **Authentication Flow:**
-   - After successful password login, prompt for 6-digit TOTP code
-   - Verify TOTP code
-   - Allow recovery code usage if TOTP device is lost
-   - Mark recovery code as used after verification
-   - Rate limit: 5 attempts per 15 minutes per user
-
-3. **Security Features:**
-   - Email notification when 2FA is enabled/disabled
-   - Email alert after 3 failed 2FA attempts
-   - Log all 2FA events (audit trail)
-   - Invalidate all other sessions when 2FA is enabled
-
-4. **Service Layer Architecture:**
-   ```
-   Create TwoFactorAuthService with methods:
-   - enable(User $user): array  // Returns secret and recovery codes
-   - verify(User $user, string $code): bool
-   - verifyRecoveryCode(User $user, string $code): bool
-   - disable(User $user): bool
-   - regenerateRecoveryCodes(User $user): array
-   ```
-
-5. **IoC Container:**
-   - Bind TwoFactorAuthService in a service provider
-   - Use constructor injection in controllers
-   - Create `TwoFactorServiceProvider`
-
-**Questions to Answer in `docs/2FA_IMPLEMENTATION.md`:**
-1. Why must recovery codes be hashed? What algorithm did you use?
-2. How do you prevent timing attacks during TOTP verification?
-3. Explain your rate limiting implementation and importance.
-4. How do you handle a user losing both TOTP device and recovery codes?
-5. Explain how you bound TwoFactorAuthService to Laravel's IoC container.
-
----
 
 ### Task 2.5: Assignment Submission System
 
@@ -357,57 +307,7 @@ DELETE /submissions/{id}             (Student action: before deadline only)
 
 ---
 
-### Task 2.6: Demonstrate IoC Container Mastery
 
-**Show deep understanding of Laravel's IoC container:**
-
-#### Requirements:
-
-1. **Context-Based Binding:**
-   ```
-   Implement different storage drivers based on context:
-   - Course videos → S3 with CloudFront CDN
-   - Student assignments → S3 standard storage
-   - Temporary uploads → Local filesystem
-   
-   The correct driver should be injected automatically based on context
-   ```
-
-2. **Create Service Providers:**
-   ```
-   - RepositoryServiceProvider: Binds all repository interfaces
-   - CacheServiceProvider: Configures caching services
-   - StorageServiceProvider: Configures storage contexts
-   ```
-
-3. **Demonstrate Various Injection Types:**
-   
-   Show examples of:
-   - Constructor injection
-   - Method injection
-   - Contextual binding
-   - Binding interfaces to implementations
-   - Singleton bindings vs transient
-   - Tagged services
-
-4. **Notification System Example:**
-   ```
-   Create NotificationService that:
-   - Uses different channels (email, SMS, push) based on user preferences
-   - Each channel is a separate implementation of NotificationChannelInterface
-   - Resolved via IoC container
-   - Easily swappable for testing
-   ```
-
-**Questions to Answer in `docs/IOC_CONTAINER_USAGE.md`:**
-1. Explain the difference between `bind()`, `singleton()`, and `scoped()` with examples from your code.
-2. What is contextual binding? Provide your implementation example.
-3. How does Laravel resolve dependencies automatically?
-4. When would you use `app()->make()` vs dependency injection?
-5. How do you inject different implementations based on runtime conditions?
-6. What's the difference between Service Container and Service Providers?
-
----
 
 ## Final Deliverables
 
@@ -419,20 +319,8 @@ DELETE /submissions/{id}             (Student action: before deadline only)
       - CourseMaterialController.php
       - AssignmentController.php
       - SubmissionController.php
-  /Services
-    - TwoFactorAuthService.php
-    - CacheService.php
-    - StorageService.php
-    - NotificationService.php
-  /Repositories
-    - (All repository interfaces and implementations)
-  /Jobs
-    - (All queue jobs)
-  /Providers
-    - RepositoryServiceProvider.php
     - CacheServiceProvider.php
     - StorageServiceProvider.php
-    - TwoFactorServiceProvider.php
 
 /database
   /migrations
@@ -443,9 +331,7 @@ DELETE /submissions/{id}             (Student action: before deadline only)
   - FILE_PROCESSING_ARCHITECTURE.md
   - CACHING_STRATEGY.md
   - QUEUE_ARCHITECTURE.md
-  - 2FA_IMPLEMENTATION.md
   - ASSIGNMENT_SYSTEM.md
-  - IOC_CONTAINER_USAGE.md
 
 ```
 
@@ -480,7 +366,9 @@ Must include:
 Record yourself explaining:
 - Your architectural decisions
 - Most challenging part
-- How you used IoC container
+- Your architectural decisions
+- Most challenging part
+- Your caching strategy
 - Your caching strategy
 - Queue processing approach
 
