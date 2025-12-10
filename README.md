@@ -394,6 +394,7 @@ Record yourself explaining:
 - **Be Pragmatic:** Real-world solutions over perfect solutions
 - **Security First:** Treat this as production code
 - **Explain Trade-offs:** Show you understand pros/cons of your decisions
+- **Frontend:** Simple UI with Tailwind CSS will suffice
 
 ---
 
