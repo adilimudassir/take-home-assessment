@@ -366,11 +366,7 @@ Must include:
 Record yourself explaining:
 - Your architectural decisions
 - Most challenging part
-- Your architectural decisions
-- Most challenging part
-- Your caching strategy
-- Your caching strategy
-- Queue processing approach
+
 
 ### 8. Deployment
 - Deploy the application to a hosting provider of your choice (e.g., AWS, DigitalOcean, Heroku, Railway).
