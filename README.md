@@ -25,7 +25,6 @@ UniLearn is experiencing rapid growth with 50,000+ students across 200+ courses.
 - Fresh Laravel 8 installation
 - MySQL database
 - You'll create sample data via seeders
-- AWS credentials provided (or use LocalStack for local development)
 
 ---
 
