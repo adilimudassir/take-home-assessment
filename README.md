@@ -3,15 +3,13 @@
 
 ---
 
-## 📋 Overview
+## Overview
 
 You have inherited a Laravel 8 codebase for "UniLearn" - an online university platform. Your task is to upgrade the system to Laravel 12 and implement critical new features that the university needs for the upcoming semester.
 
-**Estimated Time:** 10-12 hours
-
 ---
 
-## 🎯 Background
+## Background
 
 UniLearn is experiencing rapid growth with 50,000+ students across 200+ courses. The platform needs:
 - Better performance through intelligent caching
@@ -22,7 +20,7 @@ UniLearn is experiencing rapid growth with 50,000+ students across 200+ courses.
 
 ---
 
-## 📦 Starting Point
+## Starting Point
 
 - Fresh Laravel 8 installation with basic authentication
 - MySQL database
@@ -103,13 +101,13 @@ Upgrade the application from Laravel 8 to Laravel 12.
 3. How do you prevent students from accessing materials from courses they're not enrolled in?
 4. How would you handle uploading a 500MB video file?
 
-**API Endpoints Required:**
+**Routes & Views Required:**
 ```
-POST   /api/courses/{id}/materials/upload
-GET    /api/courses/{id}/materials
-GET    /api/materials/{id}
-DELETE /api/materials/{id}
-GET    /api/materials/{id}/download  (returns presigned URL)
+POST   /courses/{id}/materials/upload   (Upload form submission)
+GET    /courses/{id}/materials          (List materials view)
+GET    /materials/{id}                  (Material details view)
+DELETE /materials/{id}                  (Delete action)
+GET    /materials/{id}/download         (Download action)
 ```
 
 ---
@@ -224,7 +222,7 @@ These operations currently timeout and crash the server.
    Create middleware for:
    - Logging job execution time
    - Preventing duplicate job execution
-   - Rate limiting external API calls
+   - Rate limiting external calls
 
 6. **Artisan Commands:**
    ```
@@ -339,20 +337,21 @@ These operations currently timeout and crash the server.
    - Cache individual submission details (tag: `submission.{id}`)
    - Invalidate when new submission or grade added
 
-6. **API Endpoints:**
-   ```
-   POST   /api/assignments/{id}/submit
-   GET    /api/assignments/{id}/submissions
-   GET    /api/submissions/{id}
-   POST   /api/submissions/{id}/grade
-   GET    /api/submissions/{id}/download
-   DELETE /api/submissions/{id}  (before deadline only)
-   ```
+**Routes & Views Required:**
+```
+POST   /assignments/{id}/submit      (Submit form submission)
+GET    /assignments/{id}/submissions (Instructor view: all submissions)
+GET    /submissions/{id}             (View submission details)
+POST   /submissions/{id}/grade       (Grade submission form)
+GET    /submissions/{id}/download    (Download submission)
+DELETE /submissions/{id}             (Student action: before deadline only)
+```
 
 **Questions to Answer in `docs/ASSIGNMENT_SYSTEM.md`:**
 1. How do you prevent submissions after deadline?
 2. What happens if plagiarism check fails? How do you handle retries?
 3. How do you prevent concurrent submissions from the same student?
+
 4. Explain your cache invalidation strategy for this feature.
 5. How would you test S3 integration without hitting AWS?
 
@@ -410,13 +409,13 @@ These operations currently timeout and crash the server.
 
 ---
 
-## 📊 Final Deliverables
+## Final Deliverables
 
 ### 1. Source Code Structure
 ```
 /app
   /Http
-    /Controllers/API
+    /Controllers
       - CourseMaterialController.php
       - AssignmentController.php
       - SubmissionController.php
@@ -447,7 +446,7 @@ These operations currently timeout and crash the server.
   - 2FA_IMPLEMENTATION.md
   - ASSIGNMENT_SYSTEM.md
   - IOC_CONTAINER_USAGE.md
-  - API_DOCUMENTATION.md
+
 ```
 
 ### 2. Configuration Files
@@ -458,10 +457,9 @@ These operations currently timeout and crash the server.
 - All migrations
 - Seeders with realistic test data (at least 100 students, 20 courses, 10 instructors)
 
-### 4. API Documentation
-- Postman collection OR OpenAPI spec
-- Example requests and responses
-- Authentication flow documentation
+### 4. Application Documentation
+- `routes/web.php` should be well organized
+- Brief guide on how to navigate the app as an instructor/student
 
 ### 5. Testing (Optional but Recommended)
 - Feature tests for critical workflows
@@ -486,35 +484,26 @@ Record yourself explaining:
 - Your caching strategy
 - Queue processing approach
 
+### 8. Deployment
+- Deploy the application to a hosting provider of your choice (e.g., AWS, DigitalOcean, Heroku, Railway).
+- Ensure the prototype is running and accessible online.
+- Verify that critical features (file uploads, background jobs) are functional in the deployed environment.
+
 ---
 
-## 🚀 Submission
+## Submission
 
 1. Create a private GitHub repository
 2. Make regular commits with meaningful messages
 3. Include all documentation in `/docs` folder
 4. Ensure `.env.example` is complete
-5. Submit: Repository link + Video link
+5. Submit: Repository link + Video link + Deployed URL
 
 ---
 
-## ⏰ Suggested Time Allocation
 
-- Laravel 8→12 Upgrade: 1-2 hours
-- File Management + S3: 2-3 hours
-- Caching Implementation: 1.5-2 hours
-- Queue System: 2-3 hours
-- 2FA Implementation: 1-2 hours
-- Assignment System: 1-2 hours
-- IoC Container Examples: 1 hour
-- Documentation: 1-2 hours
-- Testing: 1 hour (optional)
 
-**Total: 10-12 hours**
-
----
-
-## 📝 Important Notes
+## Important Notes
 
 - **Document Assumptions:** If requirements are unclear, document your assumptions
 - **Ask Questions:** Create `QUESTIONS.md` with questions you'd ask the team
@@ -524,7 +513,7 @@ Record yourself explaining:
 
 ---
 
-## 🎁 Bonus (Optional)
+## Bonus (Optional)
 
 - Implement Laravel Horizon for queue monitoring
 - Add full-text search using Laravel Scout
